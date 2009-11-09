@@ -10,6 +10,9 @@ our @EXPORT = qw/opts/;
 
 my %is_invocant = map{ $_ => undef } qw($self $class);
 
+my $coerce_type_map = {};
+my $coerce_generater = {};
+
 sub opts {
     {
         package DB;
@@ -27,6 +30,7 @@ sub opts {
 
     my @options;
     my %requireds;
+    my %generaters;
     for(my $i = 0; $i < @_; $i++){
 
         (my $name = var_name(1, \$_[$i]))
@@ -41,6 +45,9 @@ sub opts {
         }
         if (exists $rule->{required}) {
             $requireds{$name} = $i;
+        }
+        if (my $gen = $coerce_generater->{$rule->{isa}}) {
+            $generaters{$name} = { idx => $i, gen => $gen };
         }
 
         push @options, $name . $rule->{type} => \$_[$i];
@@ -57,24 +64,40 @@ sub opts {
                 Carp::croak("missing mandatory parameter named '\$$name'");
             }
         }
+        while ( my ($name, $val) = each %generaters ) {
+            $_[$val->{idx}] = $val->{gen}->($_[$val->{idx}]);
+        }
     }
+}
+
+sub coerce ($$&) { ## no critic
+    my ($isa, $type, $generater) = @_;
+
+    $coerce_type_map->{$isa}  = $type;
+    $coerce_generater->{$isa} = $generater;
 }
 
 sub _compile_rule {
     my ($rule) = @_;
     if (!defined $rule) {
-        return +{ type => "!" };
+        return +{ type => "!", isa => 'Bool' };
     }
     elsif (!ref $rule) { # single, non-ref parameter is a type name
-        my $tc = _get_type_constraint($rule) or Carp::croak("cannot find type constraint '$rule'");
-        return +{ type => $tc };
+        my $tc = _get_type_constraint($rule) || 
+                 _get_type_constraint($coerce_type_map->{$rule}) or 
+                 Carp::croak("cannot find type constraint '$rule'");
+        return +{ type => $tc, isa => $rule };
     }
     else {
         my %ret;
         if ($rule->{isa}) {
-            my $tc = _get_type_constraint($rule->{isa}) or Carp::croak("cannot find type constraint '$rule'");
+            $ret{isa} = $rule->{isa};
+            my $tc = _get_type_constraint($rule->{isa}) ||
+                     _get_type_constraint($coerce_type_map->{$rule->{isa}}) or 
+                     Carp::croak("cannot find type constraint '@{[$rule->{isa}]}'");
             $ret{type} = $tc;
         } else {
+            $ret{isa} = 'Bool';
             $ret{type} = "!";
         }
         for my $key (qw(default required)) {
