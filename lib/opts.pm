@@ -50,6 +50,7 @@ sub opts {
             $generaters{$name} = { idx => $i, gen => $gen };
         }
 
+        $name .= '|' . $rule->{alias} if $rule->{alias};
         push @options, $name . $rule->{type} => \$_[$i];
 
         $i++ if defined $_[$i+1]; # discard type info
@@ -100,7 +101,7 @@ sub _compile_rule {
             $ret{isa} = 'Bool';
             $ret{type} = "!";
         }
-        for my $key (qw(default required)) {
+        for my $key (qw(alias default required)) {
             if (exists $rule->{$key}) {
                 $ret{$key} = $rule->{$key};
             }
