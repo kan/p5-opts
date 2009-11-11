@@ -1,6 +1,7 @@
-- inflate support
- - ex) opts my $date => { isa => 'DateTime' };
- - opts::inflate 'DateTime' => sub { DateTime->strptime("%Y-%m-%d",$_) };
-
-- show help (pod2usage)
+- show help 
+ - don't use pod2usage
+ - ex) opts my $foo => { isa => 'Str', description => 'input bar|baz' };
+   => ./foo.pl --help
+      Usage: foo.pl --foo=[val]
+          foo: input bar|baz
 
