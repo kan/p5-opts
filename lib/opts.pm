@@ -8,6 +8,15 @@ use Getopt::Long;
 
 our @EXPORT = qw/opts/;
 
+our $TYPE_CONSTRAINT = {
+    'Bool'     => '!',
+    'Str'      => '=s',
+    'Int'      => '=i',
+    'Num'      => '=f',
+    'ArrayRef' => '=s@',
+    'HashRef'  => '=s%', 
+};
+
 my %is_invocant = map{ $_ => undef } qw($self $class);
 
 my $coerce_type_map = {};
@@ -113,14 +122,7 @@ sub _compile_rule {
 sub _get_type_constraint {
     my $isa = shift;
 
-    return {
-        'Bool'     => '!',
-        'Str'      => '=s',
-        'Int'      => '=i',
-        'Num'      => '=f',
-        'ArrayRef' => '=s@',
-        'HashRef'  => '=s%', 
-    }->{$isa};
+    $TYPE_CONSTRAINT->{$isa};
 }
 
 1;
