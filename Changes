@@ -1,4 +1,8 @@
 Revision history for Perl extension opts
 
+0.02    Wed Nov 11 15:21:49 2009
+        - support alias
+        - support coerce
+
 0.01    Thu Oct 22 00:28:22 2009
         - original version
