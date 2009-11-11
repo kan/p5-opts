@@ -1,7 +1,7 @@
 package opts;
 use strict;
 use warnings;
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
@@ -130,38 +130,71 @@ __END__
 
 =head1 NAME
 
-opts - proof of concept
+opts - simple command line option parser
 
 =head1 SYNOPSIS
 
   # in script.pl
   use opts;
-  sub run {
-    opts my $p => 'Int';
-  }
-  run();
 
-  ./script.pl --p=4 # p => 4
+  opts my $foo => 'Int';
 
-  # in script.pl
-  sub run {
-    opts my $p => { 'Int', required => 1 },
-         my $q => 'Int';
-  }
-  ./script.pl --p=3 --q=4 # p => 3, q => 4
-  ./script.pl --p=4       # p => 4, q => undef
+  ./script.pl --foo=4 # $foo => 4
+  ./script.pl --foo 4 # $foo => 4
+  ./script.pl -f=4    # $foo => 4
 
   # in script.pl
-  sub run {
-    opts my $p => {isa => 'Int', default => 3},
-  }
-  ./script.pl --p=4       # p => 4
-  ./script.pl             # p => 3
+  opts my $foo => { 'Int', required => 1 },
+       my $bar => 'Int';
+  
+  ./script.pl --foo=3 --bar=4 # $foo => 3, $bar => 4
+  ./script.pl --foo=4         # $foo => 4, $bar => undef
+  ./script.pl --bar=4         # error!
+
+  # in script.pl
+  opts my $foo => {isa => 'Int', default => 3},
+
+  ./script.pl --foo=4     # $foo => 4
+  ./script.pl             # $foo => 3
+
+  # in script.pl
+  opts my $foo => { isa => 'Int', alias => 'x|bar' };
+
+  ./script.pl --foo=4 # $foo => 4
+  ./script.pl --bar=4 # $foo => 4
+  ./script.pl -f=4    # $foo => 4
+  ./script.pl -x=4    # $foo => 4
 
 
 =head1 DESCRIPTION
 
 opts is DSL for command line option.
+
+=head1 Options
+
+  isa
+     define option value type. see $opts::TYPE_CONSTRAINT.
+     if you need more type, see opts::coerce
+
+  required
+    define option value is required.
+
+  default
+    define options default value.
+
+  alias
+    define option param's alias.
+
+=head1 opts::coerce
+
+  opts::coerce NewType => SrcType => generater;
+
+  ex) 
+    opts::coerce DateTime => 'Str' => sub { DateTime->strptime("%Y-%m-%d", shift) };
+
+    opts my $date => 'DateTime';
+
+    $date->ymd; # => yyyy/mm/dd
 
 =head1 AUTHOR
 
