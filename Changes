@@ -1,5 +1,8 @@
 Revision history for Perl extension opts
 
+0.022   Mon Nov 16 11:24:51 2009
+        - remove Moose/Mouse dependencies
+
 0.021   Wed Nov 11 15:48:41 2009
         - fixed Makefile.PL
 

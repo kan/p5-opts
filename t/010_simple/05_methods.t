@@ -6,16 +6,19 @@ use Test::Exception;
 
 {
     package Foo;
-    use Mouse;
     use opts;
+    sub new {
+        my $class = shift;
+        return bless {}, $class;
+    }
     sub class_method {
         opts my $class,
-            my $ppp => 'Str';
+             my $ppp => 'Str';
         return "CLASS_METHOD: $class, $ppp";
     }
     sub instance_method {
         opts my $self,
-            my $ppp => 'Str';
+             my $ppp => 'Str';
         return sprintf("INSTANCE_METHOD: %s, $ppp", ref($self));
     }
 }

@@ -6,8 +6,11 @@ use Test::Exception;
 
 {
     package Foo;
-    use Any::Moose;
     use opts;
+    sub new {
+        my $class = shift;
+        return bless {}, $class;
+    }
 
     sub bar{
         opts my $self, my $x, my $y => 'Int'; # omit to set the type of $x
