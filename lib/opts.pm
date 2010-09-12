@@ -1,7 +1,7 @@
 package opts;
 use strict;
 use warnings;
-our $VERSION = '0.022';
+our $VERSION = '0.03';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
@@ -240,7 +240,7 @@ opts is DSL for command line option.
 =item B<Multiple>
 
 This subtype is based off of ArrayRef.  It will attempt to split any values
-passed on the commandline on a comma: that is,
+passed on the command line on a comma: that is,
 
     [ "one", "two,three" ]
 
@@ -264,6 +264,10 @@ will become
 =head1 AUTHOR
 
 Kan Fushihara E<lt>kan.fushihara at gmail.comE<gt>
+
+=head1 THANKS TO
+
+Chris Weyl L<http://search.cpan.org/~rsrchboy/>
 
 =head1 SEE ALSO
 

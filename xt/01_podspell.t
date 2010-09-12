@@ -9,3 +9,6 @@ Kan Fushihara
 kan.fushihara at gmail.com
 opts
 DSL
+Num
+Str
+Weyl

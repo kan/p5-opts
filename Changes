@@ -1,5 +1,12 @@
 Revision history for Perl extension opts
 
+0.03    Mon Sep 13 01:16:00 2010
+        - add useful function (Chris Weyl)
+         - coderef as default support
+         - undercore to dash for var name
+         - add "Multiple" subtype
+         - use Carp
+
 0.022   Mon Nov 16 11:24:51 2009
         - remove Moose/Mouse dependencies
 
