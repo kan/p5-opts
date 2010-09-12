@@ -37,6 +37,9 @@ sub opts {
         # XXX: should we provide ways to check the type of invocant?
     }
 
+    # track our coderef defaults
+    my %default_subs;
+
     my @options;
     my %requireds;
     my %generaters;
@@ -50,8 +53,16 @@ sub opts {
         my $rule = _compile_rule($_[$i+1]);
 
         if (exists $rule->{default}) {
-            $_[$i] = $rule->{default};
+
+            if (ref $rule->{default} && ref $rule->{default} eq 'CODE') {
+                $default_subs{$i} = $rule->{default};
+                $_[$i] = undef;
+            }
+            else {
+                $_[$i] = $rule->{default};
+            }
         }
+
         if (exists $rule->{required}) {
             $requireds{$name} = $i;
         }
@@ -68,6 +79,9 @@ sub opts {
         my $err;
         local $SIG{__WARN__} = sub { $err = shift };
         GetOptions(@options) or Carp::croak($err);
+
+        do { $_[$_] = $default_subs{$_}->() unless defined $_[$_] }
+            for keys %default_subs;
 
         while ( my ($name, $idx) = each %requireds ) {
             unless (defined($_[$idx])) {
@@ -180,7 +194,8 @@ opts is DSL for command line option.
     define option value is required.
 
   default
-    define options default value.
+    define options default value. If passed a coderef, it
+    will be executed if no value is provided on the command line.
 
   alias
     define option param's alias.
