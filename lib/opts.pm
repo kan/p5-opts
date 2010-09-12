@@ -53,6 +53,21 @@ sub opts {
 
         my $rule = _compile_rule($_[$i+1]);
 
+        if ($name =~ /_/) {
+
+            # Name has underscores in it, which is annoying for command line
+            # arguments.  Swap them and create / add to alias.
+            (my $newname = $name) =~ s/_/-/g;
+
+            $rule->{alias}
+                = $rule->{alias}
+                ? $name . q{|} . $rule->{alias}
+                : $name
+                ;
+
+            $name = $newname;
+        }
+
         if (exists $rule->{default}) {
 
             if (ref $rule->{default} && ref $rule->{default} eq 'CODE') {
