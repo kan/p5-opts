@@ -5,6 +5,7 @@ our $VERSION = '0.022';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
+use Carp ();
 
 our @EXPORT = qw/opts/;
 
