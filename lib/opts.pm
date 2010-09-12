@@ -20,8 +20,13 @@ our $TYPE_CONSTRAINT = {
 
 my %is_invocant = map{ $_ => undef } qw($self $class);
 
-my $coerce_type_map = {};
-my $coerce_generater = {};
+my $coerce_type_map = {
+    Multiple => 'ArrayRef',
+};
+
+my $coerce_generater = {
+    Multiple => sub { [ split(qr{,}, join(q{,}, @{ $_[0] })) ] },
+};
 
 sub opts {
     {
@@ -215,6 +220,35 @@ opts is DSL for command line option.
 
   alias
     define option param's alias.
+
+=head1 TYPES
+
+=over 4
+
+=item B<Str>
+
+=item B<Int>
+
+=item B<Num>
+
+=item B<Bool>
+
+=item B<ArrayRef>
+
+=item B<HashRef>
+
+=item B<Multiple>
+
+This subtype is based off of ArrayRef.  It will attempt to split any values
+passed on the commandline on a comma: that is,
+
+    [ "one", "two,three" ]
+
+will become
+
+    [ "one", "two", "three" ].
+
+=back
 
 =head1 opts::coerce
 
