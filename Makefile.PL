@@ -4,6 +4,7 @@ all_from 'lib/opts.pm';
 
 requires 'PadWalker'    => 1.9;
 requires 'Getopt::Long' => 2.37;
+requires 'Text::Table';
 
 tests ('t/*.t t/*/*.t');
 author_tests 'xt';

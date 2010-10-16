@@ -1,5 +1,8 @@
 Revision history for Perl extension opts
 
+0.04    Sat Oct 16 13:44:00 2010
+        - support show usage (use --help)
+
 0.03    Mon Sep 13 01:16:00 2010
         - add useful function (Chris Weyl)
          - coderef as default support

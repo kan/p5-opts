@@ -1,7 +1,7 @@
 package opts;
 use strict;
 use warnings;
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
@@ -46,9 +46,11 @@ sub opts {
     # track our coderef defaults
     my %default_subs;
 
-    my @options;
+    my @options = ('help|h!' => \my $help);
     my %requireds;
     my %generaters;
+    my $usage;
+    my @option_help;
     for(my $i = 0; $i < @_; $i++){
 
         (my $name = var_name(1, \$_[$i]))
@@ -87,6 +89,14 @@ sub opts {
         if (exists $rule->{required}) {
             $requireds{$name} = $i;
         }
+
+        if (my $comment = $rule->{comment}) {
+            my @names = (substr($name,0,1), $name);
+            push @names, $rule->{alias} if $rule->{alias};
+            my $optname = join(', ', map { (length($_) > 1 ? '--' : '-').$_ } @names);
+            push @option_help, [ $optname, ucfirst($comment) ];
+        }
+
         if (my $gen = $coerce_generater->{$rule->{isa}}) {
             $generaters{$name} = { idx => $i, gen => $gen };
         }
@@ -96,10 +106,24 @@ sub opts {
 
         $i++ if defined $_[$i+1]; # discard type info
     }
+    
     {
         my $err;
         local $SIG{__WARN__} = sub { $err = shift };
         GetOptions(@options) or Carp::croak($err);
+        if ($help) {
+            $usage = "usage: $0 [options]\n\n";
+
+            if (@option_help) {
+                require Text::Table;
+                push @option_help, ['-h, --help', 'This help message'];
+                my $sep = \'   ';
+                $usage .= "options:\n";
+                $usage .= Text::Table->new($sep, '', $sep, '')->load(@option_help)->stringify."\n";
+            }
+
+            die $usage;
+        }
 
         do { $_[$_] = $default_subs{$_}->() unless defined $_[$_] }
             for keys %default_subs;
@@ -145,7 +169,7 @@ sub _compile_rule {
             $ret{isa} = 'Bool';
             $ret{type} = "!";
         }
-        for my $key (qw(alias default required)) {
+        for my $key (qw(alias default required comment)) {
             if (exists $rule->{$key}) {
                 $ret{$key} = $rule->{$key};
             }
