@@ -3,7 +3,6 @@ use warnings;
 use opts;
 use Test::More;
 use Text::Diff;
-use String::Diff;
 
 eval {
         @ARGV = qw(--help);
