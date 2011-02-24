@@ -203,7 +203,7 @@ opts - simple command line option parser
   ./script.pl -f=4    # $foo => 4
 
   # in script.pl
-  opts my $foo => { 'Int', required => 1 },
+  opts my $foo => { isa => 'Int', required => 1, comment => 'this is output to --help' },
        my $bar => 'Int';
   
   ./script.pl --foo=3 --bar=4 # $foo => 3, $bar => 4
@@ -244,6 +244,10 @@ opts is DSL for command line option.
 
   alias
     define option param's alias.
+
+
+  comment
+    this comment is used to generate help. help can show --help
 
 =head1 TYPES
 
