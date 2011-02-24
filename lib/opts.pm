@@ -90,12 +90,12 @@ sub opts {
             $requireds{$name} = $i;
         }
 
-        if (my $comment = $rule->{comment}) {
-            my @names = (substr($name,0,1), $name);
-            push @names, $rule->{alias} if $rule->{alias};
-            my $optname = join(', ', map { (length($_) > 1 ? '--' : '-').$_ } @names);
-            push @option_help, [ $optname, ucfirst($comment) ];
-        }
+        
+        my $comment = $rule->{comment} || "";
+        my @names = (substr($name,0,1), $name);
+        push @names, $rule->{alias} if $rule->{alias};
+        my $optname = join(', ', map { (length($_) > 1 ? '--' : '-').$_ } @names);
+        push @option_help, [ $optname, ucfirst($comment) ];
 
         if (my $gen = $coerce_generater->{$rule->{isa}}) {
             $generaters{$name} = { idx => $i, gen => $gen };
