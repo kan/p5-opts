@@ -1,5 +1,9 @@
 Revision history for Perl extension opts
 
+0.05    Thu Feb 24 11:49:27 2011
+        - show usage when no comment
+        - fixed pod
+
 0.042   Wed Oct 20 14:15:18 2010
         - remove debug code too
 
