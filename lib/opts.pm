@@ -295,7 +295,7 @@ Chris Weyl L<http://search.cpan.org/~rsrchboy/>
 
 =head1 SEE ALSO
 
-L<http://github.com/tokuhirom/p5-args>, L<Getopt::Long>
+L<Smart::Args>, L<Getopt::Long>
 
 =head1 LICENSE
 
