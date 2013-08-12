@@ -1,7 +1,7 @@
 package opts;
 use strict;
 use warnings;
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
@@ -189,121 +189,18 @@ __END__
 
 =head1 NAME
 
-opts - simple command line option parser
-
-=head1 SYNOPSIS
-
-  # in script.pl
-  use opts;
-
-  opts my $foo => 'Int';
-
-  ./script.pl --foo=4 # $foo => 4
-  ./script.pl --foo 4 # $foo => 4
-  ./script.pl -f=4    # $foo => 4
-
-  # in script.pl
-  opts my $foo => { isa => 'Int', required => 1, comment => 'this is output to --help' },
-       my $bar => 'Int';
-  
-  ./script.pl --foo=3 --bar=4 # $foo => 3, $bar => 4
-  ./script.pl --foo=4         # $foo => 4, $bar => undef
-  ./script.pl --bar=4         # error!
-
-  # in script.pl
-  opts my $foo => {isa => 'Int', default => 3},
-
-  ./script.pl --foo=4     # $foo => 4
-  ./script.pl             # $foo => 3
-
-  # in script.pl
-  opts my $foo => { isa => 'Int', alias => 'x|bar' };
-
-  ./script.pl --foo=4 # $foo => 4
-  ./script.pl --bar=4 # $foo => 4
-  ./script.pl -f=4    # $foo => 4
-  ./script.pl -x=4    # $foo => 4
-
+(DEPRECATED)opts - simple command line option parser
 
 =head1 DESCRIPTION
 
-opts is DSL for command line option.
-
-=head1 Options
-
-  isa
-     define option value type. see $opts::TYPE_CONSTRAINT.
-     if you need more type, see opts::coerce
-
-  required
-    define option value is required.
-
-  default
-    define options default value. If passed a coderef, it
-    will be executed if no value is provided on the command line.
-
-  alias
-    define option param's alias.
-
-
-  comment
-    this comment is used to generate help. help can show --help
-
-=head1 TYPES
-
-=over 4
-
-=item B<Str>
-
-=item B<Int>
-
-=item B<Num>
-
-=item B<Bool>
-
-=item B<ArrayRef>
-
-=item B<HashRef>
-
-=item B<Multiple>
-
-This subtype is based off of ArrayRef.  It will attempt to split any values
-passed on the command line on a comma: that is,
-
-    [ "one", "two,three" ]
-
-will become
-
-    [ "one", "two", "three" ].
-
-=back
-
-=head1 opts::coerce
-
-  opts::coerce NewType => SrcType => generater;
-
-  ex) 
-    opts::coerce DateTime => 'Str' => sub { DateTime->strptime("%Y-%m-%d", shift) };
-
-    opts my $date => 'DateTime';
-
-    $date->ymd; # => yyyy/mm/dd
+B<THIS MODULE WAS DEPRECATED. USE Smart::Options INSTEAD.>
 
 =head1 AUTHOR
 
 Kan Fushihara E<lt>kan.fushihara at gmail.comE<gt>
 
-=head1 THANKS TO
-
-Chris Weyl L<http://search.cpan.org/~rsrchboy/>
-
 =head1 SEE ALSO
 
-L<Smart::Args>, L<Getopt::Long>
-
-=head1 LICENSE
-
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself.
+L<Smart::Options>, L<Smart::Args>, L<Getopt::Long>
 
 =cut
