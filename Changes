@@ -1,6 +1,8 @@
 Revision history for Perl extension opts
 
 {{$NEXT}}
+
+0.06 2013-08-12T10:28:14Z
         - this module is deprecated
 
 0.05    Thu Feb 24 11:49:27 2011
