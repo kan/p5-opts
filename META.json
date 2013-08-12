@@ -27,7 +27,10 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.36"
+            "ExtUtils::MakeMaker" : "6.36",
+            "Test::Exception" : "0",
+            "Test::Module::Used" : "0",
+            "Test::Perl::Critic" : "0"
          }
       },
       "configure" : {
@@ -71,8 +74,8 @@
       "Kan Fushihara <kan@kan-loox.(none)>",
       "Kan Fushihara <kan@mobilefactory.jp>",
       "Chris Weyl <cweyl@alumni.drew.edu>",
-      "kan <kan.fushihara@gmail.com>",
       "Keiji, Yoshimi <walf443@gmail.com>",
-      "Kan Fushihara <kan@mfac.jp>"
+      "Kan Fushihara <kan@mfac.jp>",
+      "Kan Fushihara <kan.fushihara@gmail.com>"
    ]
 }
