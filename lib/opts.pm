@@ -189,7 +189,7 @@ __END__
 
 =head1 NAME
 
-(DEPRECATED)opts - simple command line option parser
+opts - (DEPRECATED) simple command line option parser
 
 =head1 DESCRIPTION
 
