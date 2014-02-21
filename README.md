@@ -1,6 +1,6 @@
 # NAME
 
-(DEPRECATED)opts - simple command line option parser
+opts - (DEPRECATED) simple command line option parser
 
 # DESCRIPTION
 
@@ -12,4 +12,4 @@ Kan Fushihara <kan.fushihara at gmail.com>
 
 # SEE ALSO
 
-[Smart::Options](http://search.cpan.org/perldoc?Smart::Options), [Smart::Args](http://search.cpan.org/perldoc?Smart::Args), [Getopt::Long](http://search.cpan.org/perldoc?Getopt::Long)
+[Smart::Options](https://metacpan.org/pod/Smart::Options), [Smart::Args](https://metacpan.org/pod/Smart::Args), [Getopt::Long](https://metacpan.org/pod/Getopt::Long)

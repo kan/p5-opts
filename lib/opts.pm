@@ -1,7 +1,7 @@
 package opts;
 use strict;
 use warnings;
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 use Exporter 'import';
 use PadWalker qw/var_name/;
 use Getopt::Long;
