@@ -2,6 +2,9 @@ Revision history for Perl extension opts
 
 {{$NEXT}}
 
+0.08 2024-06-30T04:32:46Z
+        - fix test (thanks ppisar)
+
 0.07 2014-02-21T10:42:14Z
         - fix pod (thanks neilbowers)
 

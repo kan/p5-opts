@@ -6,6 +6,7 @@ services:
             - perl-local:/app/local
         environment:
             PERL5LIB: /app/local/lib/perl5
+            PATH: /app/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
         tty: true
 volumes:
   perl-local:
